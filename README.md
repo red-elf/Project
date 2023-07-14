@@ -16,3 +16,7 @@ This example will open project at `$PROJECT_PATH` using the Visual Studio Code p
 
 - Project open script (with program and project root directory parameters provided)
 - Project open recipes (pre-open script).
+
+## Dependency
+
+Script depends on [Software-Toolkkit's](https://github.com/red-elf/Software-Toolkit) get_progam.sh [script](https://github.com/red-elf/Software-Toolkit/blob/main/Utils/Sys/Programs/get_program.sh) and it expects to have it present in the hierarchy.
