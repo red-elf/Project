@@ -14,8 +14,8 @@ fi
 
 PROGAM="$1"
 PROJECT="$2"
-HERE="$(dirname -- "$0")"
-SCRIPT_GET_PROGRAM="$HERE/../Sys/Programs/get_program.sh"
+HERE="$(pwd)"
+SCRIPT_GET_PROGRAM="$HERE/Core/Toolkit/Utils/Sys/Programs/get_program.sh"
 
 if ! test -e "$SCRIPT_GET_PROGRAM"; then
 
@@ -24,6 +24,20 @@ if ! test -e "$SCRIPT_GET_PROGRAM"; then
 fi
 
 if sh "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
+
+  SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/project_pre_open.sh"
+
+  if test -e "$SCRIPT_RECIPE_PRE_OPEN"; then
+
+      if ! sh "$SCRIPT_RECIPE_PRE_OPEN"; then
+
+          echo "ERROR: Recipe failed, $SCRIPT_RECIPE_PRE_OPEN"
+          exit 1
+      fi
+  else
+
+      echo "WARNING: No pre-opening recipe found, $SCRIPT_RECIPE_PRE_OPEN"
+  fi
 
   "$PROGAM" "$PROJECT"
 
