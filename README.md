@@ -12,7 +12,7 @@ sh "Project/open.sh" code "$PROJECT_PATH"
 
 ### Example of integration
 
-The [HelixTrack project](https://github.com/Helix-Track/Core) incorporates the Project [Software-Toolkkit](https://github.com/red-elf/Software-Toolkit) module. See the [open](https://github.com/Helix-Track/Core/blob/main/open) script for the reference and follow the implementation.
+The [HelixTrack project](https://github.com/Helix-Track/Core) incorporates the Project [Software-Toolkit](https://github.com/red-elf/Software-Toolkit) module. See the [open](https://github.com/Helix-Track/Core/blob/main/open) script for the reference and follow the implementation.
 
 This example will open project at `$PROJECT_PATH` using the Visual Studio Code program. If pre-open script is available, it will be executed, Pre-open script is expected to be at: `Recipes/project_pre_open.sh`
 
@@ -23,4 +23,4 @@ This example will open project at `$PROJECT_PATH` using the Visual Studio Code p
 
 ## Dependency
 
-Script depends on [Software-Toolkkit's](https://github.com/red-elf/Software-Toolkit) get_progam.sh [script](https://github.com/red-elf/Software-Toolkit/blob/main/Utils/Sys/Programs/get_program.sh) and it expects to have it present in the hierarchy.
+Script depends on [Software-Toolkit's](https://github.com/red-elf/Software-Toolkit) get_progam.sh [script](https://github.com/red-elf/Software-Toolkit/blob/main/Utils/Sys/Programs/get_program.sh) and it expects to have it present in the hierarchy.
