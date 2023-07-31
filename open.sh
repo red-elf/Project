@@ -15,7 +15,7 @@ fi
 PROGAM="$1"
 PROJECT="$2"
 HERE="$(pwd)"
-SCRIPT_GET_PROGRAM="$HERE/Core/Toolkit/Utils/Sys/Programs/get_program.sh"
+SCRIPT_GET_PROGRAM="$HERE/Toolkit/Utils/Sys/Programs/get_program.sh"
 
 if ! test -e "$SCRIPT_GET_PROGRAM"; then
 
