@@ -15,6 +15,8 @@ fi
 PROGAM="$1"
 PROJECT="$2"
 HERE="$(pwd)"
+PROGRAM_VSCODE="code"
+SCRIPT_INSTALL_VSCODE="$HERE/Toolkit/Utils/VSCode/install.sh"
 SCRIPT_GET_PROGRAM="$HERE/Toolkit/Utils/Sys/Programs/get_program.sh"
 
 if ! test -e "$SCRIPT_GET_PROGRAM"; then
@@ -23,26 +25,50 @@ if ! test -e "$SCRIPT_GET_PROGRAM"; then
   exit 1
 fi
 
-if sh "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
+if ! sh "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
 
-  SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/project_pre_open.sh"
+  if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
-  if test -e "$SCRIPT_RECIPE_PRE_OPEN"; then
+    echo "ERROR: VSCode is not availble to open the project '$PROJECT', we are going to install it if possible"
 
-      if ! sh "$SCRIPT_RECIPE_PRE_OPEN"; then
+    if test -e "$SCRIPT_INSTALL_VSCODE"; then
 
-          echo "ERROR: Recipe failed, $SCRIPT_RECIPE_PRE_OPEN"
-          exit 1
+      if sh "$SCRIPT_INSTALL_VSCODE"; then
+
+        echo "VSCode has been installed with success"
+
+      else
+
+        echo "ERROR: Failed to install VSCode"
+        exit 1
       fi
+
+    else
+
+      echo "ERROR: VSCode installation script not found '$SCRIPT_INSTALL_VSCODE'"
+      exit 1
+    fi
+
   else
 
-      echo "WARNING: No pre-opening recipe found, $SCRIPT_RECIPE_PRE_OPEN"
+    echo "ERROR: $PROGAM is not availble to open the project '$PROJECT'"
+    exit 1
   fi
 
-  "$PROGAM" "$PROJECT"
-
-else
-  
-  echo "ERROR: $PROGAM is not availble to open the project '$PROJECT'"
-  exit 1
 fi
+
+SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/project_pre_open.sh"
+
+if test -e "$SCRIPT_RECIPE_PRE_OPEN"; then
+
+    if ! sh "$SCRIPT_RECIPE_PRE_OPEN"; then
+
+        echo "ERROR: Recipe failed, $SCRIPT_RECIPE_PRE_OPEN"
+        exit 1
+    fi
+else
+
+    echo "WARNING: No pre-opening recipe found, $SCRIPT_RECIPE_PRE_OPEN"
+fi
+
+"$PROGAM" "$PROJECT"
