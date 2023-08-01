@@ -18,6 +18,7 @@ HERE="$(pwd)"
 PROGRAM_VSCODE="code"
 SCRIPT_INSTALL_VSCODE="$HERE/Toolkit/Utils/VSCode/install.sh"
 SCRIPT_GET_PROGRAM="$HERE/Toolkit/Utils/Sys/Programs/get_program.sh"
+VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/vscode_installation_params.sh"
 
 if ! test -e "$SCRIPT_GET_PROGRAM"; then
 
@@ -33,7 +34,7 @@ if ! sh "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
 
     if test -e "$SCRIPT_INSTALL_VSCODE"; then
 
-      if sh "$SCRIPT_INSTALL_VSCODE"; then
+      if sh "$SCRIPT_INSTALL_VSCODE" "$VSCODE_INSTALLATION_PARAMS"; then
 
         echo "VSCode has been installed with success"
 
