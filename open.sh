@@ -12,7 +12,7 @@ if [ -z "$2" ]; then
   exit 1
 fi
 
-PROGAM="$1"
+PROGRAM="$1"
 PROJECT="$2"
 HERE="$(pwd)"
 PROGRAM_VSCODE="code"
@@ -26,7 +26,7 @@ if ! test -e "$SCRIPT_GET_PROGRAM"; then
   exit 1
 fi
 
-if ! sh "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
+if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM"; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
@@ -52,7 +52,7 @@ if ! sh "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
 
   else
 
-    echo "ERROR: $PROGAM is not availble to open the project '$PROJECT'"
+    echo "ERROR: $PROGRAM is not availble to open the project '$PROJECT'"
     exit 1
   fi
 
