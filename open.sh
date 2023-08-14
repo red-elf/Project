@@ -72,4 +72,4 @@ else
     echo "WARNING: No pre-opening recipe found, $SCRIPT_RECIPE_PRE_OPEN"
 fi
 
-"$PROGAM" "$PROJECT"
+"$PROGRAM" "$PROJECT"
