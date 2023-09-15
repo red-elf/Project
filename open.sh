@@ -67,15 +67,25 @@ if ! test -e "$SCRIPT_GET_PROGRAM"; then
   exit 1
 fi
 
+if ! test -e "$SCRIPT_INSTALL_VSCODE"; then
+
+  echo "ERROR: VSCode installation script not found '$SCRIPT_INSTALL_VSCODE'"
+  exit 1
+fi
+
+if ! test -e "$VSCODE_INSTALLATION_PARAMS"; then
+
+  echo "ERROR: VSCode installation parameters not found at '$VSCODE_INSTALLATION_PARAMS'"
+  exit 1
+fi
+
 if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM"; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
-    echo "ERROR: VSCode is not availble to open the project '$PROJECT', we are going to install it if possible"
+    echo "WARNING: VSCode is not availble to open the project '$PROJECT', we are going to install it if possible"
 
-    if test -e "$SCRIPT_INSTALL_VSCODE"; then
-
-      if sh "$SCRIPT_INSTALL_VSCODE" "$VSCODE_INSTALLATION_PARAMS"; then
+    if sh "$SCRIPT_INSTALL_VSCODE" "$VSCODE_INSTALLATION_PARAMS"; then
 
         echo "VSCode has been installed with success"
 
@@ -84,12 +94,6 @@ if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM"; then
         echo "ERROR: Failed to install VSCode"
         exit 1
       fi
-
-    else
-
-      echo "ERROR: VSCode installation script not found '$SCRIPT_INSTALL_VSCODE'"
-      exit 1
-    fi
 
   else
 
