@@ -59,7 +59,7 @@ fi
 SCRIPT_INSTALL_VSCODE="$DIR_TOOLKIT/Utils/VSCode/install.sh"
 SCRIPT_GET_PROGRAM="$DIR_TOOLKIT/Utils/Sys/Programs/get_program.sh"
 
-VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/vscode_installation_params.sh"
+VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/vscode_installation_parameters.sh"
 
 if ! test -e "$SCRIPT_GET_PROGRAM"; then
 
