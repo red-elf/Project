@@ -79,7 +79,7 @@ if ! test -e "$VSCODE_INSTALLATION_PARAMS"; then
   exit 1
 fi
 
-if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM"; then
+if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
@@ -100,7 +100,22 @@ if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM"; then
     echo "ERROR: $PROGRAM is not availble to open the project '$PROJECT'"
     exit 1
   fi
+fi
 
+if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
+
+  if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
+
+      if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh" >/dev/null 2>&1; then
+
+        echo "SonarLint has been configured"
+
+      else
+
+        echo "ERROR: SonarLint has failed to configure"
+        exit 1
+      fi
+  fi
 fi
 
 SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/project_pre_open.sh"
