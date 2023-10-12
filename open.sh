@@ -57,13 +57,20 @@ if ! test -e "$DIR_TOOLKIT"; then
 fi
 
 SCRIPT_INSTALL_VSCODE="$DIR_TOOLKIT/Utils/VSCode/install.sh"
+SCRIPT_EXTEND_JSON="$DIR_TOOLKIT//Utils/Sys/JSON/merge_jsons.sh"
 SCRIPT_GET_PROGRAM="$DIR_TOOLKIT/Utils/Sys/Programs/get_program.sh"
 
-VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/vscode_installation_parameters.sh"
+VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/installation_parameters_vscode.sh"
 
 if ! test -e "$SCRIPT_GET_PROGRAM"; then
 
   echo "ERROR: Script not found, $SCRIPT_GET_PROGRAM"
+  exit 1
+fi
+
+if ! test -e "$SCRIPT_EXTEND_JSON"; then
+
+  echo "ERROR: Script not found '$SCRIPT_EXTEND_JSON'"
   exit 1
 fi
 
@@ -79,7 +86,7 @@ if ! test -e "$VSCODE_INSTALLATION_PARAMS"; then
   exit 1
 fi
 
-if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM"; then
+if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
@@ -100,7 +107,70 @@ if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM"; then
     echo "ERROR: $PROGRAM is not availble to open the project '$PROJECT'"
     exit 1
   fi
+fi
 
+if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
+
+  if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
+
+      if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh" >/dev/null 2>&1; then
+
+        echo "SonarLint has been configured"
+
+      else
+
+        echo "ERROR: SonarLint has failed to configure"
+        exit 1
+      fi
+
+      SETTINGS_DIR="$HERE/.vscode"
+
+      if test -e "$SETTINGS_DIR"; then
+
+        echo "Settings directory: '$SETTINGS_DIR'"
+
+      else
+
+        if ! mkdir -p "$SETTINGS_DIR"; then
+
+          echo "ERROR: Could not create directory '$SETTINGS_DIR'"
+          exit 1
+        fi
+      fi
+
+      RECIPE="$HERE/Recipes/settings.json.sh"
+      SETTINGS_JSON="$SETTINGS_DIR/settings.json"
+
+      if test -e "$SETTINGS_JSON"; then
+
+        echo "Settings JSON: '$SETTINGS_JSON'"
+
+      else
+
+        if echo "{}" > "$SETTINGS_JSON"; then
+
+          echo "Settings JSON has bee initialized at: '$SETTINGS_JSON'"
+
+        else
+
+          echo "ERROR: Could not initialize settings JSON at '$SETTINGS_JSON'"
+          exit 1
+        fi
+      fi
+
+      if test -e "$RECIPE"; then
+
+        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON" >/dev/null 2>&1; then
+
+          echo "VSCode settings have been configured"
+
+        else
+
+          echo "ERROR: VSCode settings have not been configured"
+          exit 1
+        fi
+      fi
+  fi
 fi
 
 SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/project_pre_open.sh"
