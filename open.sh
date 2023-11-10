@@ -86,7 +86,21 @@ if ! test -e "$VSCODE_INSTALLATION_PARAMS"; then
   exit 1
 fi
 
-if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
+if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
+
+  if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
+
+    echo "VSCode is installed on your system" && echo "Checking VSCode data version"
+
+    # TODO: Check and update
+
+  else
+
+    echo "ERROR: $PROGRAM is not availble to open the project '$PROJECT' (1)"
+    exit 1
+  fi
+
+else
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
@@ -104,9 +118,10 @@ if ! sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
   else
 
-    echo "ERROR: $PROGRAM is not availble to open the project '$PROJECT'"
+    echo "ERROR: $PROGRAM is not availble to open the project '$PROJECT' (2)"
     exit 1
   fi
+  
 fi
 
 if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
