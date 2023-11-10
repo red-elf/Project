@@ -130,8 +130,26 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
                 if [ "$answer" != "${answer#[Yy]}" ] ;then 
                     
                     echo "Starting the update"
-                    
-                    # TODO: Trigger
+
+                    SCRIPT_INSTALL="$DIR_TOOLKIT/Utils/VSCode/install.sh" 
+                    LOCAL_RECIPE="$HERE/Recipes/installation_parameters_vscode.sh"
+
+                    if test -e "$SCRIPT_INSTALL"; then
+
+                      if test -e "$LOCAL_RECIPE"; then
+
+                        sh "$SCRIPT_INSTALL" "$LOCAL_RECIPE" && exit 0
+
+                      else
+
+                        sh "$SCRIPT_INSTALL" && exit 0
+                      fi
+
+                    else
+
+                      echo "ERROR: Installation script not found '$SCRIPT_INSTALL'"
+                      exit 1
+                    fi
 
                 else
                     
