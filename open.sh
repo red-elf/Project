@@ -123,9 +123,20 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
                 echo "New VSCode data version is available: $OBTAINED_DATA_VERSION"
                 
-                echo "Ready to update?"
+                echo "Ready to update? [y/n]"
 
-                # TODO: Trigger the update
+                read -r answer
+
+                if [ "$answer" != "${answer#[Yy]}" ] ;then 
+                    
+                    echo "Starting the update"
+                    
+                    # TODO: Trigger
+
+                else
+                    
+                    echo "WARNING: Skipping the update"
+                fi
 
             fi
           fi
