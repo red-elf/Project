@@ -92,7 +92,46 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
     echo "VSCode is installed on your system" && echo "Checking VSCode data version"
 
-    # TODO: Check and update
+    CODE_HOME=$(which "$PROGRAM")
+    
+    if test -e "$CODE_HOME" && file "$CODE_HOME" | grep "executable"; then
+
+      CODE_HOME=$(dirname "${CODE_HOME}")
+
+      if test -e "$CODE_HOME" && file "$CODE_HOME" | grep "directory"; then
+
+        VERSION_FILE="$CODE_HOME/data/data_version.txt"
+
+        if test -e "$VERSION_FILE"; then
+
+          CURRENT_VSCODE_VERSION=$(cat "$VERSION_FILE")
+
+          echo "Current VSCode data version: $CURRENT_VSCODE_VERSION"
+
+          if [ -z "$SHARES_SERVER" ]; then
+
+              echo "The 'SHARES_SERVER' is not defined"
+              exit 1
+          fi
+
+          OBTAINED_DATA_VERSION=$(curl "http://$SHARES_SERVER:8081/data_version.txt")
+
+          # shellcheck disable=SC2002
+          if ! echo "$OBTAINED_DATA_VERSION" | grep "404 Not Found" >/dev/null 2>&1; then
+
+            if ! [ "$CURRENT_VSCODE_VERSION" == "$OBTAINED_DATA_VERSION" ]; then
+
+                echo "New VSCode data version is available: $OBTAINED_DATA_VERSION"
+                
+                echo "Ready to update?"
+
+                # TODO: Trigger the update
+
+            fi
+          fi
+        fi
+      fi
+    fi
 
   else
 
@@ -171,6 +210,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
           echo "ERROR: Could not initialize settings JSON at '$SETTINGS_JSON'"
           exit 1
         fi
+
       fi
 
       if test -e "$RECIPE"; then
@@ -197,6 +237,7 @@ if test -e "$SCRIPT_RECIPE_PRE_OPEN"; then
         echo "ERROR: Recipe failed, $SCRIPT_RECIPE_PRE_OPEN"
         exit 1
     fi
+
 else
 
     echo "WARNING: No pre-opening recipe found, $SCRIPT_RECIPE_PRE_OPEN"
