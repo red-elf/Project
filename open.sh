@@ -136,13 +136,40 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
                     if test -e "$SCRIPT_INSTALL"; then
 
+                      FINISH_SUCCESS() {
+
+                        echo "Installation has been completed with success. Now you can open your project."
+                        exit 0
+                      }
+
+                      FINISH_FAILURE() {
+                        
+                        echo "ERROR: Installation has failed"
+                        exit 1
+                      }
+
                       if test -e "$LOCAL_RECIPE"; then
 
-                        sh "$SCRIPT_INSTALL" "$LOCAL_RECIPE" && exit 0
+                        if sh "$SCRIPT_INSTALL" "$LOCAL_RECIPE"; then
+
+                          FINISH_SUCCESS
+
+                        else
+
+                          FINISH_FAILURE
+                        fi
 
                       else
 
-                        sh "$SCRIPT_INSTALL" && exit 0
+                        if sh "$SCRIPT_INSTALL"; then
+
+                          FINISH_SUCCESS
+
+                        else
+
+                          FINISH_FAILURE
+                        fi
+
                       fi
 
                     else
