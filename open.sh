@@ -60,7 +60,7 @@ SCRIPT_INSTALL_VSCODE="$DIR_TOOLKIT/Utils/VSCode/install.sh"
 SCRIPT_EXTEND_JSON="$DIR_TOOLKIT//Utils/Sys/JSON/merge_jsons.sh"
 SCRIPT_GET_PROGRAM="$DIR_TOOLKIT/Utils/Sys/Programs/get_program.sh"
 
-VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/installation_parameters_vscode.sh"
+VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/VSCode/installation_parameters_vscode.sh"
 
 if ! test -e "$SCRIPT_GET_PROGRAM"; then
 
@@ -132,7 +132,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
                     echo "Starting the update"
 
                     SCRIPT_INSTALL="$DIR_TOOLKIT/Utils/VSCode/install.sh" 
-                    LOCAL_RECIPE="$HERE/Recipes/installation_parameters_vscode.sh"
+                    LOCAL_RECIPE="$HERE/Recipes/VSCode/installation_parameters_vscode.sh"
 
                     if test -e "$SCRIPT_INSTALL"; then
 
@@ -248,7 +248,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
         fi
       fi
 
-      RECIPE="$HERE/Recipes/settings.json.sh"
+      RECIPE="$HERE/Recipes/VSCode/settings.json.sh"
       SETTINGS_JSON="$SETTINGS_DIR/settings.json"
 
       if test -e "$SETTINGS_JSON"; then
