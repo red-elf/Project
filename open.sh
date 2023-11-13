@@ -284,7 +284,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
   fi
 fi
 
-SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/project_pre_open.sh"
+SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/Project/project_pre_open.sh"
 
 if test -e "$SCRIPT_RECIPE_PRE_OPEN"; then
 
