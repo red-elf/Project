@@ -22,6 +22,8 @@ fi
 
 echo "Preparing project at: '$PATH_PROJECT'"
 
+# TODO: Move to the Software Toolkit utils
+#
 LINK_FILE_TO_PROJECT() {
 
   if [ -z "$1" ]; then
@@ -41,14 +43,17 @@ LINK_FILE_TO_PROJECT() {
 
   if ! test -e "$LINK_WHAT"; then
 
-    echo "ERROR: Source does not exist '$LINK_TO'"
+    echo "ERROR: Source does not exist '$LINK_WHAT'"
     exit 1
   fi
 
-  if ! test -e "$LINK_TO"; then
+  if test -e "$LINK_TO"; then
 
-    echo "ERROR: Destination does not exist '$LINK_TO'"
-    exit 1
+    if ! rm -f "$LINK_TO"; then
+
+      echo "ERROR: Link to was ot cleaned up '$LINK_TO'"
+      exit 1
+    fi
   fi
 
   if ln -s "$LINK_WHAT" "$LINK_TO"; then
@@ -59,4 +64,4 @@ LINK_FILE_TO_PROJECT() {
 
 FILE_PULL_ALL="pull_all"
 
-LINK_FILE_TO_PROJECT "$FILE_PULL_ALL" "$PATH_PROJECT/$FILE_PULL_ALL"
+LINK_FILE_TO_PROJECT "$SUBMODULES_HOME/$FILE_PULL_ALL" "$PATH_PROJECT/$FILE_PULL_ALL"
