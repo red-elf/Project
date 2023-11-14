@@ -8,7 +8,7 @@ fi
 
 if [ -z "$1" ]; then
 
-  echo "ERROR: Project path parameter not ptovided"
+  echo "ERROR: Project path parameter not provided"
   exit 1
 fi
 
@@ -21,3 +21,42 @@ if ! test -e "$PATH_PROJECT"; then
 fi
 
 echo "Preparing project at: '$PATH_PROJECT'"
+
+LINK_FILE_TO_PROJECT() {
+
+  if [ -z "$1" ]; then
+
+    echo "ERROR: Link what path parameter not provided"
+    exit 1
+  fi
+
+  if [ -z "$2" ]; then
+
+    echo "ERROR: Link to path parameter not provided"
+    exit 1
+  fi
+
+  LINK_WHAT="$1"
+  LINK_TO="$2"
+
+  if ! test -e "$LINK_WHAT"; then
+
+    echo "ERROR: Source does not exist '$LINK_TO'"
+    exit 1
+  fi
+
+  if ! test -e "$LINK_TO"; then
+
+    echo "ERROR: Destination does not exist '$LINK_TO'"
+    exit 1
+  fi
+
+  if ln -s "$LINK_WHAT" "$LINK_TO"; then
+
+    echo "Linked: $LINK_WHAT -> $LINK_TO"
+  fi
+}
+
+FILE_PULL_ALL="pull_all"
+
+LINK_FILE_TO_PROJECT "$FILE_PULL_ALL" "$PATH_PROJECT/$FILE_PULL_ALL"
