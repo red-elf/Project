@@ -29,7 +29,7 @@ FILE_PUSH_ALL="push_all"
 
 SCRIPT_LINK="$SUBMODULES_HOME/Software-Toolkit/Utils/Sys/Filesystem/link.sh"
 
-if ! test -e "$SCRIPT_INSTALL"; then
+if ! test -e "$SCRIPT_LINK"; then
 
   echo "ERROR: Script not found '$SCRIPT_LINK'"
   exit 1
