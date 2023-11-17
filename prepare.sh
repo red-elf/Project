@@ -87,6 +87,17 @@ fi
 
 DIR_MODULE_UPSTREAMABLE="$SUBMODULES_HOME/Upstreamable"
 
+SCRIPT_PATHS="$SUBMODULES_HOME/Software-Toolkit/Utils/Sys/paths.sh"
+
+if ! test  -e "$SCRIPT_PATHS"; then
+
+    echo "ERROR: Prepare script not found '$SCRIPT_PATHS'"
+    exit 1
+fi
+
+# shellcheck disable=SC1090
+. "$SCRIPT_PATHS"
+
 ADD_TO_PATH "$FILE_RC" "$DIR_MODULE_UPSTREAMABLE"
 
 # shellcheck disable=SC1090
