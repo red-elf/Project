@@ -2,9 +2,6 @@
 
 if [ -z "$SUBMODULES_HOME" ]; then
 
-  echo "We are about to initialize the Project Toolkit"
-
-  HERE="$(dirname -- "$0")"
   DIR_HOME=$(eval echo ~"$USER")
   FILE_ZSH_RC="$DIR_HOME/.zshrc"
   FILE_BASH_RC="$DIR_HOME/.bashrc"
@@ -43,28 +40,55 @@ if [ -z "$SUBMODULES_HOME" ]; then
       fi
   fi
 
-  if test -e "$SUBMODULES_LOAD_ENVIRONMENT"; then
+else
 
-      echo "Loading the environment"
-      
-      # shellcheck disable=SC1090
-      . "$SUBMODULES_LOAD_ENVIRONMENT" >/dev/null 2>&1
+  # shellcheck disable=SC2012
+  FILES_COUNT=$(ls "$SUBMODULES_HOME" -1 | wc -l)
+
+  if [ "$FILES_COUNT" == 0 ]; then
+
+    if (test -e ./clone || wget "https://raw.githubusercontent.com/red-elf/Project-Toolkit/main/clone?append="$(($(date +%s%N)/1000000)) -O clone) && \
+      chmod +x ./clone && ./clone git@github.com:red-elf/Project-Toolkit.git /tmp; then
+
+      echo "Project Toolkit is ready"
+
+    else
+
+      echo "ERROR: Project Toolkit is not ready"
+      exit 1
+    fi
   fi
-
-  DIR_MODULE_UPSTREAMABLE="$SUBMODULES_HOME/Upstreamable"
-
-  ADD_TO_PATH "$FILE_RC" "$DIR_MODULE_UPSTREAMABLE"
-
-  # shellcheck disable=SC1090
-  . "$FILE_RC"
-
 fi
+
+# shellcheck disable=SC2012
+FILES_COUNT=$(ls "$SUBMODULES_HOME" -1 | wc -l)
 
 if [ -z "$SUBMODULES_HOME" ]; then
 
   echo "ERROR: The SUBMODULES_HOME is not defined"
   exit 1
 fi
+
+if [ "$FILES_COUNT" == 0 ]; then
+
+  echo "ERROR: The SUBMODULES_HOME points to empty directory"
+  exit 1
+fi
+
+if test -e "$SUBMODULES_LOAD_ENVIRONMENT"; then
+
+    echo "Loading the environment"
+    
+    # shellcheck disable=SC1090
+    . "$SUBMODULES_LOAD_ENVIRONMENT" >/dev/null 2>&1
+fi
+
+DIR_MODULE_UPSTREAMABLE="$SUBMODULES_HOME/Upstreamable"
+
+ADD_TO_PATH "$FILE_RC" "$DIR_MODULE_UPSTREAMABLE"
+
+# shellcheck disable=SC1090
+. "$FILE_RC"
 
 if [ -n "$SUBMODULES_PRIVATE_HOME" ] && [ -n "$SUBMODULES_PRIVATE_RECIPES" ]; then
     
