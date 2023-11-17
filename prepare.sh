@@ -23,9 +23,6 @@ if test -e "$SUBMODULES_LOAD_ENVIRONMENT"; then
     . "$SUBMODULES_LOAD_ENVIRONMENT" >/dev/null 2>&1
 fi
 
-# shellcheck disable=SC1090
-. "$FILE_RC"
-
 if [ -n "$SUBMODULES_PRIVATE_HOME" ] && [ -n "$SUBMODULES_PRIVATE_RECIPES" ]; then
     
     SCRIPT_INSTALL_PRIVATE_MODULES="$SUBMODULES_HOME/Software-Toolkit/Utils/Git/install_private_submodules.sh"
