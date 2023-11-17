@@ -94,13 +94,13 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
     CODE_HOME=$(which "$PROGRAM")
     
-    if test -e "$CODE_HOME" && file "$CODE_HOME" | grep "executable"; then
+    if test -e "$CODE_HOME" && file "$CODE_HOME" | grep "executable" >/dev/null 2>&1; then
 
       CODE_HOME=$(dirname "${CODE_HOME}")
 
-      if test -e "$CODE_HOME" && file "$CODE_HOME" | grep "directory"; then
+      if test -e "$CODE_HOME" && file "$CODE_HOME" | grep "directory" >/dev/null 2>&1; then
 
-        VERSION_FILE="$CODE_HOME/data/data_version.txt"
+        VERSION_FILE="$CODE_HOME/data_version.txt"
 
         if test -e "$VERSION_FILE"; then
 
