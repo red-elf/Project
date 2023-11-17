@@ -2,8 +2,85 @@
 
 if [ -z "$SUBMODULES_HOME" ]; then
 
+  echo "We are about to initialize the Project Toolkit"
+
+  HERE="$(dirname -- "$0")"
+  DIR_HOME=$(eval echo ~"$USER")
+  FILE_ZSH_RC="$DIR_HOME/.zshrc"
+  FILE_BASH_RC="$DIR_HOME/.bashrc"
+
+  FILE_RC=""
+      
+  if test -e "$FILE_ZSH_RC"; then
+
+    FILE_RC="$FILE_ZSH_RC"
+
+  else
+
+      if test -e "$FILE_BASH_RC"; then
+
+        FILE_RC="$FILE_BASH_RC"
+
+      else
+
+        echo "ERROR: No '$FILE_ZSH_RC' or '$FILE_BASH_RC' found on the system"
+        exit 1
+      fi
+  fi
+
+  # shellcheck disable=SC2002
+  if ! cat "$FILE_RC" | grep "SUBMODULES_HOME=" >/dev/null 2>&1; then
+
+      export SUBMODULES_HOME="$DIR_HOME/Apps/Project-Toolkit"
+      
+      if echo "" >> "$FILE_RC" && echo "export SUBMODULES_HOME=$SUBMODULES_HOME" >> "$FILE_RC"; then
+
+          echo "SUBMODULES_HOME is added into '$FILE_RC' configuration"
+
+      else
+
+          echo "WARNING: SUBMODULES_HOME was not added into '$FILE_RC' configuration"
+      fi
+  fi
+
+  if test -e "$SUBMODULES_LOAD_ENVIRONMENT"; then
+
+      echo "Loading the environment"
+      
+      # shellcheck disable=SC1090
+      . "$SUBMODULES_LOAD_ENVIRONMENT" >/dev/null 2>&1
+  fi
+
+  DIR_MODULE_UPSTREAMABLE="$SUBMODULES_HOME/Upstreamable"
+
+  ADD_TO_PATH "$FILE_RC" "$DIR_MODULE_UPSTREAMABLE"
+
+  # shellcheck disable=SC1090
+  . "$FILE_RC"
+
+fi
+
+if [ -z "$SUBMODULES_HOME" ]; then
+
   echo "ERROR: The SUBMODULES_HOME is not defined"
   exit 1
+fi
+
+if [ -n "$SUBMODULES_PRIVATE_HOME" ] && [ -n "$SUBMODULES_PRIVATE_RECIPES" ]; then
+    
+    SCRIPT_INSTALL_PRIVATE_MODULES="$SUBMODULES_HOME/Software-Toolkit/Utils/Git/install_private_submodules.sh"
+
+    if ! test -e "$SCRIPT_INSTALL_PRIVATE_MODULES"; then
+
+        echo "ERROR: Script not found '$SCRIPT_INSTALL_PRIVATE_MODULES'"
+        exit 1
+    fi
+
+    if ! sh "$SCRIPT_INSTALL_PRIVATE_MODULES" "$SUBMODULES_PRIVATE_HOME" "$SUBMODULES_PRIVATE_RECIPES"; then
+
+        echo "ERROR: Private modules installation failed"
+        exit 1
+    fi
 fi
 
 if [ -z "$1" ]; then
