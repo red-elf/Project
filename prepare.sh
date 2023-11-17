@@ -38,36 +38,38 @@ if [ -z "$SUBMODULES_HOME" ]; then
 
           echo "WARNING: SUBMODULES_HOME was not added into '$FILE_RC' configuration"
       fi
-  fi
-
-else
-
-  # shellcheck disable=SC2012
-  FILES_COUNT=$(ls "$SUBMODULES_HOME" -1 | wc -l)
-
-  if [ "$FILES_COUNT" == 0 ]; then
-
-    if (test -e ./clone || wget "https://raw.githubusercontent.com/red-elf/Project-Toolkit/main/clone?append="$(($(date +%s%N)/1000000)) -O clone) && \
-      chmod +x ./clone && ./clone git@github.com:red-elf/Project-Toolkit.git /tmp; then
-
-      echo "Project Toolkit is ready"
-
-    else
-
-      echo "ERROR: Project Toolkit is not ready"
-      exit 1
-    fi
-  fi
+  fi  
 fi
 
 # shellcheck disable=SC2012
 FILES_COUNT=$(ls "$SUBMODULES_HOME" -1 | wc -l)
+
+if [ "$FILES_COUNT" == 0 ]; then
+
+  if (test -e ./clone || wget "https://raw.githubusercontent.com/red-elf/Project-Toolkit/main/clone?append="$(($(date +%s%N)/1000000)) -O clone) && \
+    chmod +x ./clone && ./clone git@github.com:red-elf/Project-Toolkit.git /tmp; then
+
+    echo "Project Toolkit is installed to '$SUBMODULES_HOME'"
+
+  else
+
+    echo "ERROR: Project Toolkit is not installed to '$SUBMODULES_HOME'"
+    exit 1
+  fi
+
+else
+
+  echo "Project Toolkit is available at '$SUBMODULES_HOME'"
+fi
 
 if [ -z "$SUBMODULES_HOME" ]; then
 
   echo "ERROR: The SUBMODULES_HOME is not defined"
   exit 1
 fi
+
+# shellcheck disable=SC2012
+FILES_COUNT=$(ls "$SUBMODULES_HOME" -1 | wc -l)
 
 if [ "$FILES_COUNT" == 0 ]; then
 
