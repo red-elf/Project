@@ -23,21 +23,6 @@ if test -e "$SUBMODULES_LOAD_ENVIRONMENT"; then
     . "$SUBMODULES_LOAD_ENVIRONMENT" >/dev/null 2>&1
 fi
 
-DIR_MODULE_UPSTREAMABLE="$SUBMODULES_HOME/Upstreamable"
-
-SCRIPT_PATHS="$SUBMODULES_HOME/Software-Toolkit/Utils/Sys/paths.sh"
-
-if ! test  -e "$SCRIPT_PATHS"; then
-
-    echo "ERROR: Prepare script not found '$SCRIPT_PATHS'"
-    exit 1
-fi
-
-# shellcheck disable=SC1090
-. "$SCRIPT_PATHS"
-
-ADD_TO_PATH "$FILE_RC" "$DIR_MODULE_UPSTREAMABLE"
-
 # shellcheck disable=SC1090
 . "$FILE_RC"
 
@@ -124,8 +109,8 @@ INIT_DIR "$DIR_RECIPES_INSTALLABLE_FULL"
 
 FILE_SYNC="sync"
 FILE_TEST="test"
-FILE_OPEN="open"
 FILE_CLONE="clone"
+FILE_OPEN="do_open"
 FILE_PREPARE="prepare"
 FILE_PULL_ALL="pull_all"
 FILE_PUSH_ALL="push_all"
