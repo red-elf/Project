@@ -9,7 +9,7 @@ fi
 # shellcheck disable=SC2012
 FILES_COUNT=$(ls "$SUBMODULES_HOME" -1 | wc -l)
 
-if [ "$FILES_COUNT" == "0" ]; then
+if [ "$FILES_COUNT" = "0" ]; then
 
   echo "ERROR: The SUBMODULES_HOME points to empty directory"
   exit 1
