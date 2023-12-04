@@ -119,7 +119,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
           # shellcheck disable=SC2002
           if ! echo "$OBTAINED_DATA_VERSION" | grep "404 Not Found" >/dev/null 2>&1; then
 
-            if ! [ "$CURRENT_VSCODE_VERSION" == "$OBTAINED_DATA_VERSION" ]; then
+            if [ ! "$CURRENT_VSCODE_VERSION" == "$OBTAINED_DATA_VERSION" ]; then
 
                 echo "New VSCode data version is available: $OBTAINED_DATA_VERSION"
                 
@@ -183,10 +183,29 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
                     echo "WARNING: Skipping the update"
                 fi
 
+            else
+
+              echo "Data version is up to date: $CURRENT_VSCODE_VERSION"
             fi
+
+          else
+
+            echo "WARNING: No data caersion obtained"
           fi
+
+        else
+        
+          echo "WARNING: No version file at '$VERSION_FILE'"
         fi
+
+      else
+
+        echo "WARNING: No valid '$PROGRAM' home at '$CODE_HOME' (2)"
       fi
+
+    else
+
+      echo "WARNING: No valid '$PROGRAM' home at '$CODE_HOME' (1)"
     fi
 
   else
@@ -222,6 +241,18 @@ fi
 if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
+
+      SCRIPT_GET_SONAR_NAME="get_sonar_project_name.sh"
+      SCRIPT_GET_SONAR_NAME_FULL="$SUBMODULES_HOME/Software-Toolkit/Utils/SonarQube/$SCRIPT_GET_SONAR_NAME"
+
+      if ! test -e "$SCRIPT_GET_SONAR_NAME_FULL"; then
+
+          echo "ERROR: Script not found '$SCRIPT_GET_SONAR_NAME_FULL'"
+          exit 1
+      fi
+
+      # shellcheck disable=SC1090
+      . "$SCRIPT_GET_SONAR_NAME_FULL"
 
       if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh" >/dev/null 2>&1; then
 
