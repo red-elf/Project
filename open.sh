@@ -106,96 +106,96 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
           CURRENT_VSCODE_VERSION=$(cat "$VERSION_FILE")
 
-          echo "Current VSCode data version: $CURRENT_VSCODE_VERSION"
+        else
 
-          if [ -z "$SHARES_SERVER" ]; then
+          CURRENT_VSCODE_VERSION="Undefined"
+        fi
 
-              echo "The 'SHARES_SERVER' is not defined"
-              exit 1
-          fi
+        echo "Current VSCode data version: $CURRENT_VSCODE_VERSION"
 
-          OBTAINED_DATA_VERSION=$(curl "http://$SHARES_SERVER:8081/data_version.txt")
+        if [ -z "$SHARES_SERVER" ]; then
 
-          # shellcheck disable=SC2002
-          if ! echo "$OBTAINED_DATA_VERSION" | grep "404 Not Found" >/dev/null 2>&1; then
+            echo "The 'SHARES_SERVER' is not defined"
+            exit 1
+        fi
 
-            if [ ! "$CURRENT_VSCODE_VERSION" == "$OBTAINED_DATA_VERSION" ]; then
+        OBTAINED_DATA_VERSION=$(curl "http://$SHARES_SERVER:8081/data_version.txt")
 
-                echo "New VSCode data version is available: $OBTAINED_DATA_VERSION"
-                
-                echo "Ready to update? [y/n]"
+        # shellcheck disable=SC2002
+        if ! echo "$OBTAINED_DATA_VERSION" | grep "404 Not Found" >/dev/null 2>&1; then
 
-                read -r answer
+          if [ ! "$CURRENT_VSCODE_VERSION" == "$OBTAINED_DATA_VERSION" ]; then
 
-                if [ "$answer" != "${answer#[Yy]}" ] ;then 
-                    
-                    echo "Starting the update"
+              echo "New VSCode data version is available: $OBTAINED_DATA_VERSION"
+              
+              echo "Ready to update? [y/n]"
 
-                    SCRIPT_INSTALL="$DIR_TOOLKIT/Utils/VSCode/install.sh" 
-                    LOCAL_RECIPE="$HERE/Recipes/VSCode/installation_parameters_vscode.sh"
+              read -r answer
 
-                    if test -e "$SCRIPT_INSTALL"; then
+              if [ "$answer" != "${answer#[Yy]}" ] ;then 
+                  
+                  echo "Starting the update"
 
-                      FINISH_SUCCESS() {
+                  SCRIPT_INSTALL="$DIR_TOOLKIT/Utils/VSCode/install.sh" 
+                  LOCAL_RECIPE="$HERE/Recipes/VSCode/installation_parameters_vscode.sh"
 
-                        echo "Installation has been completed with success. Now you can open your project."
-                        exit 0
-                      }
+                  if test -e "$SCRIPT_INSTALL"; then
 
-                      FINISH_FAILURE() {
-                        
-                        echo "ERROR: Installation has failed"
-                        exit 1
-                      }
+                    FINISH_SUCCESS() {
 
-                      if test -e "$LOCAL_RECIPE"; then
+                      echo "Installation has been completed with success. Now you can open your project."
+                      exit 0
+                    }
 
-                        if sh "$SCRIPT_INSTALL" "$LOCAL_RECIPE"; then
+                    FINISH_FAILURE() {
+                      
+                      echo "ERROR: Installation has failed"
+                      exit 1
+                    }
 
-                          FINISH_SUCCESS
+                    if test -e "$LOCAL_RECIPE"; then
 
-                        else
+                      if sh "$SCRIPT_INSTALL" "$LOCAL_RECIPE"; then
 
-                          FINISH_FAILURE
-                        fi
+                        FINISH_SUCCESS
 
                       else
 
-                        if sh "$SCRIPT_INSTALL"; then
-
-                          FINISH_SUCCESS
-
-                        else
-
-                          FINISH_FAILURE
-                        fi
-
+                        FINISH_FAILURE
                       fi
 
                     else
 
-                      echo "ERROR: Installation script not found '$SCRIPT_INSTALL'"
-                      exit 1
+                      if sh "$SCRIPT_INSTALL"; then
+
+                        FINISH_SUCCESS
+
+                      else
+
+                        FINISH_FAILURE
+                      fi
+
                     fi
 
-                else
-                    
-                    echo "WARNING: Skipping the update"
-                fi
+                  else
 
-            else
+                    echo "ERROR: Installation script not found '$SCRIPT_INSTALL'"
+                    exit 1
+                  fi
 
-              echo "Data version is up to date: $CURRENT_VSCODE_VERSION"
-            fi
+              else
+                  
+                  echo "WARNING: Skipping the update"
+              fi
 
           else
 
-            echo "WARNING: No data caersion obtained"
+            echo "Data version is up to date: $CURRENT_VSCODE_VERSION"
           fi
 
         else
-        
-          echo "WARNING: No version file at '$VERSION_FILE'"
+
+          echo "WARNING: No data caersion obtained"
         fi
 
       else
