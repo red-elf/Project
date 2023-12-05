@@ -101,6 +101,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
       if test -e "$CODE_HOME" && file "$CODE_HOME" | grep "directory" >/dev/null 2>&1; then
 
         VERSION_FILE="$CODE_HOME/data_version.txt"
+        OBTAINED_DATA_VERSION=$(curl "http://$SHARES_SERVER:8081/data_version.txt")
 
         if test -e "$VERSION_FILE"; then
 
@@ -122,14 +123,12 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
             exit 1
         fi
 
-        OBTAINED_DATA_VERSION=$(curl "http://$SHARES_SERVER:8081/data_version.txt")
-
         echo "Ontained VSCode data version: $OBTAINED_DATA_VERSION"
 
         # shellcheck disable=SC2002
         if ! echo "$OBTAINED_DATA_VERSION" | grep "404 Not Found" >/dev/null 2>&1; then
 
-          echo "Comparing VSCode data versions: $CURRENT_VSCODE_VERSION :: $OBTAINED_DATA_VERSION"
+          echo "Comparing VSCode data versions"
 
           if [ "$CURRENT_VSCODE_VERSION" = "$OBTAINED_DATA_VERSION" ]; then
 
