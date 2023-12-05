@@ -109,9 +109,6 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
         else
 
-          # FIXME:
-          # - This check has to read that file to obtain the current version.
-          #
           CURRENT_VSCODE_VERSION="Undefined"
         fi
 
