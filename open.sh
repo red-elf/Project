@@ -109,7 +109,6 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
         else
 
           # FIXME:
-          # - Make sure that VSCode installation script adds the data_version.txt
           # - This check has to read that file to obtain the current version.
           #
           CURRENT_VSCODE_VERSION="Undefined"
