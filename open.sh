@@ -131,7 +131,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
           echo "Comparing VSCode data versions"
 
-          if [ "$CURRENT_VSCODE_VERSION" = "$OBTAINED_DATA_VERSION" ]; then
+          if [ "$CURRENT_VSCODE_VERSION" == "$OBTAINED_DATA_VERSION" ]; then
 
             echo "Data version is up to date: $CURRENT_VSCODE_VERSION"
 
