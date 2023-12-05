@@ -129,9 +129,9 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
         # shellcheck disable=SC2002
         if ! echo "$OBTAINED_DATA_VERSION" | grep "404 Not Found" >/dev/null 2>&1; then
 
-          echo "Comparing VSCode data versions"
+          echo "Comparing VSCode data versions: $CURRENT_VSCODE_VERSION :: $OBTAINED_DATA_VERSION"
 
-          if [ "$CURRENT_VSCODE_VERSION" == "$OBTAINED_DATA_VERSION" ]; then
+          if [ "$CURRENT_VSCODE_VERSION" = "$OBTAINED_DATA_VERSION" ]; then
 
             echo "Data version is up to date: $CURRENT_VSCODE_VERSION"
 
