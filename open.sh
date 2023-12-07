@@ -246,28 +246,6 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
-      SCRIPT_GET_SONAR_NAME="get_sonar_project_name.sh"
-      SCRIPT_GET_SONAR_NAME_FULL="$SUBMODULES_HOME/Software-Toolkit/Utils/SonarQube/$SCRIPT_GET_SONAR_NAME"
-
-      if ! test -e "$SCRIPT_GET_SONAR_NAME_FULL"; then
-
-          echo "ERROR: Script not found '$SCRIPT_GET_SONAR_NAME_FULL'"
-          exit 1
-      fi
-
-      # shellcheck disable=SC1090
-      . "$SCRIPT_GET_SONAR_NAME_FULL"
-
-      if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh" >/dev/null 2>&1; then
-
-        echo "SonarLint has been configured"
-
-      else
-
-        echo "ERROR: SonarLint has failed to configure"
-        exit 1
-      fi
-
       SETTINGS_DIR="$HERE/.vscode"
 
       if test -e "$SETTINGS_DIR"; then
@@ -283,7 +261,6 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
         fi
       fi
 
-      RECIPE="$HERE/Recipes/VSCode/settings.json.sh"
       SETTINGS_JSON="$SETTINGS_DIR/settings.json"
 
       if test -e "$SETTINGS_JSON"; then
@@ -301,18 +278,62 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
           echo "ERROR: Could not initialize settings JSON at '$SETTINGS_JSON'"
           exit 1
         fi
-
       fi
 
-      if test -e "$RECIPE"; then
+      RECIPE_USER_DEFAULTS="$HERE/Recipes/VSCode/settings.user.json.sh"
 
-        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON" >/dev/null 2>&1; then
+      if test -e "$RECIPE_USER_DEFAULTS"; then
 
-          echo "VSCode settings have been configured"
+        # TODO: Mute again
+        #
+        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON"; then # >/dev/null 2>&1
+
+          echo "VSCode settings have been configured (1)"
 
         else
 
-          echo "ERROR: VSCode settings have not been configured"
+          echo "ERROR: VSCode settings have not been configured (1)"
+          exit 1
+        fi
+      fi
+
+      SCRIPT_GET_SONAR_NAME="get_sonar_project_name.sh"
+      SCRIPT_GET_SONAR_NAME_FULL="$SUBMODULES_HOME/Software-Toolkit/Utils/SonarQube/$SCRIPT_GET_SONAR_NAME"
+
+      if ! test -e "$SCRIPT_GET_SONAR_NAME_FULL"; then
+
+          echo "ERROR: Script not found '$SCRIPT_GET_SONAR_NAME_FULL'"
+          exit 1
+      fi
+
+      # shellcheck disable=SC1090
+      . "$SCRIPT_GET_SONAR_NAME_FULL"
+
+      # TODO: Mute again
+      #
+      if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh"; then # >/dev/null 2>&1
+
+        echo "SonarLint has been configured"
+
+      else
+
+        echo "ERROR: SonarLint has failed to configure"
+        exit 1
+      fi
+
+      RECIPE="$HERE/Recipes/VSCode/settings.json.sh"
+      
+      if test -e "$RECIPE"; then
+
+        # TODO: Mute again
+        #
+        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON"; then # >/dev/null 2>&1
+
+          echo "VSCode settings have been configured (2)"
+
+        else
+
+          echo "ERROR: VSCode settings have not been configured (2)"
           exit 1
         fi
       fi
