@@ -59,6 +59,23 @@ fi
 SCRIPT_INSTALL_VSCODE="$DIR_TOOLKIT/Utils/VSCode/install.sh"
 SCRIPT_EXTEND_JSON="$DIR_TOOLKIT//Utils/Sys/JSON/merge_jsons.sh"
 SCRIPT_GET_PROGRAM="$DIR_TOOLKIT/Utils/Sys/Programs/get_program.sh"
+SCRIPT_GET_CODE_PATHS="$SUBMODULES_HOME/Software-Toolkit/Utils/VSCode/get_paths.sh"
+SCRIPT_GET_PROGRAM="$SUBMODULES_HOME/Software-Toolkit/Utils/Sys/Programs/get_program.sh"
+
+if ! test -e "$SCRIPT_GET_CODE_PATHS"; then
+
+  echo "ERROR: Script not found '$SCRIPT_GET_CODE_PATHS'"
+  exit 1
+fi
+
+if ! test -e "$SCRIPT_GET_CODE_PATHS"; then
+
+  echo "ERROR: Script not found '$SCRIPT_GET_CODE_PATHS'"
+  exit 1
+fi
+
+# shellcheck disable=SC1090
+. "$SCRIPT_GET_CODE_PATHS"
 
 VSCODE_INSTALLATION_PARAMS="$HERE/Recipes/VSCode/installation_parameters_vscode.sh"
 
@@ -247,6 +264,22 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
       SETTINGS_DIR="$HERE/.vscode"
+    
+      GET_VSCODE_PATHS
+
+      if [ -z "$CODE_DIR" ]; then
+
+          echo "ERROR: the 'CODE_DIR' variable is not set"
+          exit 1
+      fi
+
+      if [ -z "$CODE_DATA_DIR" ]; then
+
+          echo "ERROR: the 'CODE_DIR' variable is not set"
+          exit 1
+      fi
+
+      SETTINGS_DIR_USER="$CODE_DATA_DIR/user-data/User"
 
       if test -e "$SETTINGS_DIR"; then
 
@@ -262,6 +295,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
       fi
 
       SETTINGS_JSON="$SETTINGS_DIR/settings.json"
+      SETTINGS_JSON_USER="$SETTINGS_DIR_USER/settings.json"
 
       if test -e "$SETTINGS_JSON"; then
 
@@ -286,7 +320,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
         # TODO: Mute again
         #
-        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON"; then # >/dev/null 2>&1
+        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON_USER" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON_USER"; then # >/dev/null 2>&1
 
           echo "VSCode settings have been configured (1)"
 
