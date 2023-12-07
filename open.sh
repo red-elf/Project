@@ -320,6 +320,8 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
         # TODO: Mute again
         #
+
+        # shellcheck disable=SC1090
         if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON_USER" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON_USER"; then # >/dev/null 2>&1
 
           echo "VSCode settings have been configured (1)"
@@ -361,6 +363,8 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
         # TODO: Mute again
         #
+        
+        # shellcheck disable=SC1090
         if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON"; then # >/dev/null 2>&1
 
           echo "VSCode settings have been configured (2)"
