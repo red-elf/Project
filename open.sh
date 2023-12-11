@@ -318,11 +318,8 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
       if test -e "$RECIPE_USER_DEFAULTS"; then
 
-        # TODO: Mute again
-        #
-
         # shellcheck disable=SC1090
-        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON_USER" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON_USER"; then # >/dev/null 2>&1
+        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON_USER" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON_USER" >/dev/null 2>&1; then
 
           echo "VSCode settings have been configured (1)"
 
@@ -345,9 +342,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
       # shellcheck disable=SC1090
       . "$SCRIPT_GET_SONAR_NAME_FULL"
 
-      # TODO: Mute again
-      #
-      if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh"; then # >/dev/null 2>&1
+      if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh" >/dev/null 2>&1; then
 
         echo "SonarLint has been configured"
 
@@ -361,11 +356,8 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
       
       if test -e "$RECIPE"; then
 
-        # TODO: Mute again
-        #
-        
         # shellcheck disable=SC1090
-        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON"; then # >/dev/null 2>&1
+        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON" >/dev/null 2>&1; then
 
           echo "VSCode settings have been configured (2)"
 
