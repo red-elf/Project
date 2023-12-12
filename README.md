@@ -14,7 +14,7 @@ This example will open project at `$PROJECT_PATH` using the Visual Studio Code p
 
 ### Example of integration
 
-The [HelixTrack project](https://github.com/Helix-Track/Core) incorporates the Project [Software-Toolkit](https://github.com/red-elf/Software-Toolkit) module. See the [open](https://github.com/Helix-Track/Core/blob/main/open) script for the reference and follow the implementation.
+The [helix track project](https://github.com/Helix-Track/Core) incorporates the Project [Software-Toolkit](https://github.com/red-elf/Software-Toolkit) module. See the [open](https://github.com/Helix-Track/Core/blob/main/open) script for the reference and follow the implementation.
 
 ## Features supported
 
