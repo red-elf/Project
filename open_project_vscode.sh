@@ -11,7 +11,7 @@ PROGAM="code"
 HERE="$(dirname -- "$0")"
 SCRIPT_GET_PROGRAM="$HERE/../Sys/Programs/get_program.sh"
 
-if sh "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
+if bash "$SCRIPT_GET_PROGRAM" "$PROGAM"; then
 
   "$PROGAM" "$PROJECT"
 

@@ -103,7 +103,7 @@ if ! test -e "$VSCODE_INSTALLATION_PARAMS"; then
   exit 1
 fi
 
-if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
+if bash "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
@@ -179,7 +179,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
                     if test -e "$LOCAL_RECIPE"; then
 
-                      if sh "$SCRIPT_INSTALL" "$LOCAL_RECIPE"; then
+                      if bash "$SCRIPT_INSTALL" "$LOCAL_RECIPE"; then
 
                         FINISH_SUCCESS
 
@@ -190,7 +190,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
                     else
 
-                      if sh "$SCRIPT_INSTALL"; then
+                      if bash "$SCRIPT_INSTALL"; then
 
                         FINISH_SUCCESS
 
@@ -241,7 +241,7 @@ else
 
     echo "WARNING: VSCode is not availble to open the project '$PROJECT', we are going to install it if possible"
 
-    if sh "$SCRIPT_INSTALL_VSCODE" "$VSCODE_INSTALLATION_PARAMS"; then
+    if bash "$SCRIPT_INSTALL_VSCODE" "$VSCODE_INSTALLATION_PARAMS"; then
 
         echo "VSCode has been installed with success"
 
@@ -259,7 +259,7 @@ else
   
 fi
 
-if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
+if bash "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
 
   if [ "$PROGRAM" = "$PROGRAM_VSCODE" ]; then
 
@@ -319,7 +319,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
       if test -e "$RECIPE_USER_DEFAULTS"; then
 
         # shellcheck disable=SC1090
-        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON_USER" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON_USER" >/dev/null 2>&1; then
+        if bash "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON_USER" "$RECIPE_USER_DEFAULTS" "$SETTINGS_JSON_USER" >/dev/null 2>&1; then
 
           echo "VSCode settings have been configured (1)"
 
@@ -342,7 +342,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
       # shellcheck disable=SC1090
       . "$SCRIPT_GET_SONAR_NAME_FULL"
 
-      if sh "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh" >/dev/null 2>&1; then
+      if bash "$DIR_TOOLKIT/Utils/SonarQube/configure_sonar_lint.sh" >/dev/null 2>&1; then
 
         echo "SonarLint has been configured"
 
@@ -357,7 +357,7 @@ if sh "$SCRIPT_GET_PROGRAM" "$PROGRAM" >/dev/null 2>&1; then
       if test -e "$RECIPE"; then
 
         # shellcheck disable=SC1090
-        if sh "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON" >/dev/null 2>&1; then
+        if bash "$SCRIPT_EXTEND_JSON" "$SETTINGS_JSON" "$RECIPE" "$SETTINGS_JSON" >/dev/null 2>&1; then
 
           echo "VSCode settings have been configured (2)"
 
@@ -374,7 +374,7 @@ SCRIPT_RECIPE_PRE_OPEN="$HERE/Recipes/Project/project_pre_open.sh"
 
 if test -e "$SCRIPT_RECIPE_PRE_OPEN"; then
 
-    if ! sh "$SCRIPT_RECIPE_PRE_OPEN"; then
+    if ! bash "$SCRIPT_RECIPE_PRE_OPEN"; then
 
         echo "ERROR: Recipe failed, $SCRIPT_RECIPE_PRE_OPEN"
         exit 1

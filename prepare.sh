@@ -33,7 +33,7 @@ if [ -n "$SUBMODULES_PRIVATE_HOME" ] && [ -n "$SUBMODULES_PRIVATE_RECIPES" ]; th
         exit 1
     fi
 
-    if ! sh "$SCRIPT_INSTALL_PRIVATE_MODULES" "$SUBMODULES_PRIVATE_HOME" "$SUBMODULES_PRIVATE_RECIPES"; then
+    if ! bash "$SCRIPT_INSTALL_PRIVATE_MODULES" "$SUBMODULES_PRIVATE_HOME" "$SUBMODULES_PRIVATE_RECIPES"; then
 
         echo "ERROR: Private modules installation failed"
         exit 1
